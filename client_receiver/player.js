@@ -53,6 +53,9 @@ Player.prototype.onLoad = function(event) {
    *  initializing with no constructor parameter.
    */
   var imaRequestData = event.data.media.customData;
+  if(imaRequestData.manifestURLSuffix) {
+    this.manifestURLSuffix = imaRequestData.manifestURLSuffix;
+  }
   this.startTime_ = imaRequestData.startTime;
   if (imaRequestData.assetKey) {
     this.streamRequest =
@@ -90,6 +93,9 @@ Player.prototype.initStreamManager_ = function() {
       google.ima.dai.api.StreamEvent.Type.LOADED,
       function(event) {
         var streamUrl = event.getStreamData().url;
+        if(self.manifestURLSuffix) {
+          streamUrl += '?' + self.manifestURLSuffix;
+        }
         // Each element in subtitles array is an object with url and language
         // properties. Example of a subtitles array with 2 elements:
         // {
