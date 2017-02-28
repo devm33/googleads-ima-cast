@@ -94,7 +94,12 @@ Player.prototype.initStreamManager_ = function() {
       function(event) {
         var streamUrl = event.getStreamData().url;
         if(self.manifestURLSuffix) {
-          streamUrl += '?' + self.manifestURLSuffix;
+          if(streamUrl.includes('?')) {
+            streamUrl += '&';
+          } else {
+            streamUrl += '?';
+          }
+          streamUrl += self.manifestURLSuffix;
         }
         // Each element in subtitles array is an object with url and language
         // properties. Example of a subtitles array with 2 elements:
