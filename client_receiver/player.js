@@ -57,6 +57,8 @@ Player.prototype.onLoad = function(event) {
     this.manifestURLSuffix = imaRequestData.manifestURLSuffix;
   }
   this.startTime_ = imaRequestData.startTime;
+  console.log('Creating stream with data:');
+  console.log(imaRequestData);
   if (imaRequestData.assetKey) {
     this.streamRequest =
       new google.ima.dai.api.LiveStreamRequest(imaRequestData);
