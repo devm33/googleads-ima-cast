@@ -58,6 +58,9 @@ Player.prototype.onLoad = function(event) {
     this.needsCredentials_ = true;
     this.manifestURLSuffix = imaRequestData.manifestURLSuffix;
   }
+  else if(imaRequestData.needCredentials) {
+    this.needsCredentials_ = true;
+  }
   this.startTime_ = imaRequestData.startTime;
   console.log('Creating stream with data:');
   console.log(imaRequestData);
