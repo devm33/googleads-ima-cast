@@ -58,7 +58,7 @@ Player.prototype.onLoad = function(event) {
     this.needsCredentials_ = true;
     this.manifestURLSuffix = imaRequestData.manifestURLSuffix;
   }
-  else if(imaRequestData.needCredentials) {
+  else if(imaRequestData.needsCredentials) {
     this.needsCredentials_ = true;
   }
   this.startTime_ = imaRequestData.startTime;
