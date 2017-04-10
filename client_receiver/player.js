@@ -3,6 +3,7 @@ var Player = function(mediaElement) {
   var self = this;
   this.castPlayer_ = null;
   this.startTime_ = 0;
+  this.needsCredentials_ = false;
   this.adIsPlaying_ = false;
   this.mediaElement_ = mediaElement;
   this.receiverManager_ = cast.receiver.CastReceiverManager.getInstance();
@@ -54,6 +55,7 @@ Player.prototype.onLoad = function(event) {
    */
   var imaRequestData = event.data.media.customData;
   if(imaRequestData.manifestURLSuffix) {
+    this.needsCredentials_ = true;
     this.manifestURLSuffix = imaRequestData.manifestURLSuffix;
   }
   this.startTime_ = imaRequestData.startTime;
@@ -162,6 +164,26 @@ Player.prototype.onStreamDataReceived = function(url) {
   var currentTime = this.startTime_ > 0 ? this.streamManager_
     .streamTimeForContentTime(this.startTime_) : 0;
   this.broadcast_('start time: ' + currentTime);
+
+  host.updateManifestRequestInfo = function(requestInfo) {
+    if (!requestInfo.url) {
+      requestInfo.url = host.url;
+    }
+    if (self.needsCredentials_) {
+      requestInfo.withCredentials = true;
+    }
+  };
+  host.updateLicenseRequestInfo = function(requestInfo) {
+    if (self.needsCredentials_) {
+      requestInfo.withCredentials = true;
+    }
+  };
+  host.updateSegmentRequestInfo = function(requestInfo) {
+    if (self.needsCredentials_) {
+      requestInfo.withCredentials = true;
+    }
+  };
+
   this.castPlayer_ = new cast.player.api.Player(host);
   this.castPlayer_.load(
     cast.player.api.CreateHlsStreamingProtocol(host), currentTime);
