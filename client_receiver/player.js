@@ -32,6 +32,10 @@ var Player = function(mediaElement) {
   this.mediaManager_.onLoad = this.onLoad.bind(this);
   this.mediaManager_.onSeek = this.onSeek.bind(this);
   this.initStreamManager_();
+
+  this.mediaElement_.addEventListener('timeupdate', () => {
+    console.log('timeupdate: ' + this.mediaElement_.currentTime);
+  }, true);
 };
 
 /**
